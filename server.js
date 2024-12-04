@@ -6,6 +6,11 @@ const port = 3001
 const prisma = new PrismaClient()
 app.use(express.json())
 
+//root 
+app.get('/', (req, res) => {
+  res.send('route root')
+})
+
 //new note
 app.post('/note', async (req, res) => {
 
