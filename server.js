@@ -172,6 +172,27 @@ app.delete('/note/:id', async (req, res) => {
   }
 });
 
+//busca nota pelo id
+app.get('/note/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Verifica se a nota existe
+    const nota = await prisma.note.findUnique({
+      where: { id },
+    });
+
+    if (!nota) {
+      return res.status(404).json({ error: 'Nota não encontrada.' });
+    }
+
+    res.status(200).json(nota);
+  } catch (error) {
+    console.error('Erro ao buscar nota:', error);
+    res.status(500).json({ error: 'Erro interno ao buscar nota.' });
+  }
+});
+
 
 // Inicia o servidor
 app.listen(port, () => {
