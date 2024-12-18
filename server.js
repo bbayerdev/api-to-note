@@ -1,19 +1,27 @@
-const { PrismaClient } = require('@prisma/client')
-const express = require('express')
-const app = express()
-const port = 3001
+const { PrismaClient } = require('@prisma/client');
+const express = require('express');
+const cors = require('cors'); // Importa o pacote cors
+const app = express();
+const port = 3001;
 
-const prisma = new PrismaClient()
-app.use(express.json())
+const prisma = new PrismaClient();
 
-//root 
+// Configuração do CORS - permitindo apenas requisições de 'http://localhost:3000'
+app.use(cors({
+  origin: 'http://localhost:3000', // Permite requisições apenas do frontend rodando em localhost:3000
+  methods: 'GET, POST, PUT, DELETE', // Permite esses métodos HTTP
+  allowedHeaders: 'Content-Type', // Permite o cabeçalho Content-Type
+}));
+
+app.use(express.json());
+
+// Root
 app.get('/', (req, res) => {
-  res.send('route root')
-})
+  res.send('route root');
+});
 
-//new note
+// Nova nota
 app.post('/note', async (req, res) => {
-
   await prisma.note.create({
     data: {
       tittle: req.body.tittle,
@@ -21,20 +29,18 @@ app.post('/note', async (req, res) => {
       date: req.body.date,
       hour: req.body.hour
     }
-  })
+  });
 
-  res.status(201).json(req.body)
-})
+  res.status(201).json(req.body);
+});
 
-//display note
+// Exibir todas as notas
 app.get('/note', async (req, res) => {
+  const notes = await prisma.note.findMany();
+  res.status(200).json(notes);
+});
 
-  const notes = await prisma.note.findMany()
-
-  res.status(200).json(notes)
-})
-
-//display note by id
+// Exibir nota por id
 app.get('/note/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -44,12 +50,10 @@ app.get('/note/:id', async (req, res) => {
       where: { id },
     });
 
-    // Verificar se a nota existe
     if (!note) {
       return res.status(404).json({ error: 'Nota não encontrada.' });
     }
 
-    // Retornar a nota encontrada
     res.status(200).json(note);
   } catch (error) {
     console.error('Erro ao buscar nota:', error);
@@ -57,24 +61,21 @@ app.get('/note/:id', async (req, res) => {
   }
 });
 
-// delete by id
+// Deletar nota por id
 app.delete('/note/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Verificar se a nota existe antes de excluir
     const note = await prisma.note.findUnique({ where: { id } });
 
     if (!note) {
       return res.status(404).json({ error: 'Nota não encontrada.' });
     }
 
-    // Excluir a nota
     await prisma.note.delete({
       where: { id },
     });
 
-    // Retornar uma mensagem de sucesso
     res.status(200).json({ message: 'Nota excluída com sucesso!' });
   } catch (error) {
     console.error('Erro ao excluir nota:', error);
@@ -82,21 +83,18 @@ app.delete('/note/:id', async (req, res) => {
   }
 });
 
-
-// Editar título e corpo de uma nota por ID
+// Editar nota
 app.put('/note/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { tittle, body } = req.body;
 
-    // Verificar se a nota existe antes de atualizar
     const note = await prisma.note.findUnique({ where: { id } });
 
     if (!note) {
       return res.status(404).json({ error: 'Nota não encontrada.' });
     }
 
-    // Atualizar apenas os campos fornecidos (título e corpo)
     const updatedNote = await prisma.note.update({
       where: { id },
       data: {
@@ -105,7 +103,6 @@ app.put('/note/:id', async (req, res) => {
       },
     });
 
-    // Retornar a nota atualizada
     res.status(200).json(updatedNote);
   } catch (error) {
     console.error('Erro ao atualizar nota:', error);
@@ -113,8 +110,7 @@ app.put('/note/:id', async (req, res) => {
   }
 });
 
-
+// Inicia o servidor
 app.listen(port, () => {
-  console.log(`running in  localhost:${port}`)
-})
-
+  console.log(`Servidor rodando em http://localhost:${port}`);
+});
