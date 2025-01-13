@@ -53,8 +53,41 @@ app.post('/usuario', async (req, res) => {
   }
 });
 
-// excluir user
+// Rota de login
+app.post('/login', async (req, res) => {
+  try {
+    const { email, senha } = req.body;
 
+    // Verifica se o usuário existe
+    const usuario = await prisma.usuario.findUnique({
+      where: { email },
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+
+    // Verifica se a senha está correta
+    if (usuario.senha !== senha) {
+      return res.status(401).json({ error: 'Credenciais inválidas.' });
+    }
+
+    // Retorna os dados do usuário como resposta
+    res.status(200).json({
+      message: 'Login bem-sucedido!',
+      usuario: {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+      },
+    });
+  } catch (error) {
+    console.error('Erro ao realizar login:', error);
+    res.status(500).json({ error: 'Erro interno ao realizar login.' });
+  }
+});
+
+// excluir user
 app.delete('/usuario/:id', async (req, res) => {
   try {
     const { id } = req.params;
