@@ -1,22 +1,22 @@
-const { PrismaClient } = require('@prisma/client');
-const express = require('express');
-const cors = require('cors'); // Importa o pacote cors
-const app = express();
-const port = 3001;
-const prisma = new PrismaClient();
+const { PrismaClient } = require('@prisma/client')
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const port = 3001
+const prisma = new PrismaClient()
 
 //DATABASE_URL="mongodb+srv://bayer:JK87obZGZ6NK9Szz@cluster0.jg2ro.mongodb.net/cluster0?retryWrites=true&w=majority"
 
-// Configuração do CORS - permitindo apenas requisições de 'http://localhost:3000'
+// cors / so apenas requisições de 'http://localhost:3000'
 app.use(cors({
-  origin: 'http://localhost:3000', // Permite requisições apenas do frontend rodando em localhost:3000
-  methods: 'GET, POST, PUT, DELETE', // Permite esses métodos HTTP
-  allowedHeaders: 'Content-Type', // Permite o cabeçalho Content-Type
+  origin: 'http://localhost:3000',
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Content-Type',
 }));
 
 app.use(express.json());
 
-// Root
+// root
 app.get('/', (req, res) => {
   res.send('route root');
 });
@@ -28,28 +28,26 @@ app.post('/usuario', async (req, res) => {
   try {
     const { nome, email, senha } = req.body;
 
-    // Verifica se o e-mail já está cadastrado
     const usuarioExistente = await prisma.usuario.findUnique({
       where: { email },
     });
 
     if (usuarioExistente) {
-      return res.status(400).json({ error: 'E-mail já está em uso.' });
+      return res.status(400).json({ error: 'E-mail já está em uso.' })
     }
 
-    // Cria o novo usuário
     const novoUsuario = await prisma.usuario.create({
       data: {
         nome,
         email,
-        senha, // Lembre-se de usar hashing de senha em produção!
+        senha,
       },
-    });
+    })
 
     res.status(201).json(novoUsuario);
   } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    res.status(500).json({ error: 'Erro interno ao criar usuário.' });
+    console.error('Erro ao criar usuário:', error)
+    res.status(500).json({ error: 'Erro interno ao criar usuário.' })
   }
 });
 
@@ -58,21 +56,19 @@ app.post('/login', async (req, res) => {
   try {
     const { email, senha } = req.body;
 
-    // Verifica se o usuário existe
     const usuario = await prisma.usuario.findUnique({
       where: { email },
-    });
+    })
 
     if (!usuario) {
       return res.status(404).json({ error: 'Usuário não encontrado.' });
     }
 
-    // Verifica se a senha está correta
     if (usuario.senha !== senha) {
       return res.status(401).json({ error: 'Credenciais inválidas.' });
     }
 
-    // Retorna os dados do usuário como resposta
+    //  return os os do usuário como resposta
     res.status(200).json({
       message: 'Login bem-sucedido!',
       usuario: {
@@ -80,33 +76,59 @@ app.post('/login', async (req, res) => {
         nome: usuario.nome,
         email: usuario.email,
       },
-    });
+    })
   } catch (error) {
     console.error('Erro ao realizar login:', error);
     res.status(500).json({ error: 'Erro interno ao realizar login.' });
   }
-});
+})
+
+// rota auth pelo google
+app.post('/auth/google', async (req, res) => {
+  const { email, name } = req.body
+
+  try {
+    let user = await prisma.usuario.findUnique({ where: { email } })
+
+    if (!user) {
+      user = await prisma.usuario.create({
+        data: {
+          email,
+          nome: name,
+          authType: 'google'
+        }
+      })
+    } return res.status(200).json({
+      id: user.id,
+      email: user.email,
+      nome: user.nome,
+      authType: user.authType,
+    });
+  }
+
+  catch (error) {
+    console.error('[Google Auth Error]', error);
+    return res.status(500).json({ error: 'Erro ao autenticar com Google' });
+  }
+})
 
 // excluir user
 app.delete('/usuario/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Verifica se o usuário existe
     const usuario = await prisma.usuario.findUnique({
       where: { id },
-    });
+    })
 
     if (!usuario) {
       return res.status(404).json({ error: 'Usuário não encontrado.' });
     }
 
-    // Exclui as notas associadas ao usuário (opcional)
     await prisma.note.deleteMany({
       where: { idUser: id },
     });
 
-    // Exclui o usuário
     await prisma.usuario.delete({
       where: { id },
     });
@@ -116,8 +138,7 @@ app.delete('/usuario/:id', async (req, res) => {
     console.error('Erro ao excluir usuário:', error);
     res.status(500).json({ error: 'Erro interno ao excluir usuário.' });
   }
-});
-
+})
 
 // ROTAS DOS NOTES
 
@@ -126,7 +147,7 @@ app.post('/note', async (req, res) => {
   try {
     const { tittle, body, date, hour, idUser } = req.body;
 
-    // Verifica se o usuário existe
+
     const usuario = await prisma.usuario.findUnique({
       where: { id: idUser },
     });
@@ -177,7 +198,7 @@ app.get('/usuario/:id/notes', async (req, res) => {
     console.error('Erro ao buscar notas do usuário:', error);
     res.status(500).json({ error: 'Erro interno ao buscar notas.' });
   }
-});
+})
 
 //deletar uma nota
 app.delete('/note/:id', async (req, res) => {

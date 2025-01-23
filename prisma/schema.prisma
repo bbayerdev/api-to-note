@@ -8,19 +8,19 @@ datasource db {
 }
 
 model Note {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  tittle   String
-  body     String?
-  date     String
-  hour     String
-  idUser   String  @db.ObjectId // ID do usuário que criou a nota
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  tittle String
+  body   String?
+  date   String
+  hour   String
+  idUser String  @db.ObjectId // ID do usuário que criou a nota
 }
 
 model Usuario {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  nome      String
-  email     String   @unique
-  senha     String
-  criadoEm  DateTime @default(now())
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome     String
+  email    String   @unique
+  senha    String?
+  authType String   @default("password")
+  criadoEm DateTime @default(now())
 }
-
