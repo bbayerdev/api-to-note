@@ -21,6 +21,7 @@ model Usuario {
   nome     String
   email    String   @unique
   senha    String?
+  imageUrl String?
   authType String   @default("password")
   criadoEm DateTime @default(now())
 }
