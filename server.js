@@ -95,6 +95,7 @@ app.post('/auth/google', async (req, res) => {
         data: {
           email,
           nome: name,
+          imageUrl,
           authType: 'google'
         }
       })
@@ -103,6 +104,7 @@ app.post('/auth/google', async (req, res) => {
       email: user.email,
       nome: user.nome,
       authType: user.authType,
+      imageUrl: user.imageUrl
     });
   }
 
