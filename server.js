@@ -85,7 +85,9 @@ app.post('/login', async (req, res) => {
 
 // rota auth pelo google
 app.post('/auth/google', async (req, res) => {
-  const { email, name, imageUrl } = req.body
+  let { email, name, imageUrl } = req.body
+  let statis = 200
+
 
   try {
     let user = await prisma.usuario.findUnique({ where: { email } })
@@ -99,7 +101,8 @@ app.post('/auth/google', async (req, res) => {
           authType: 'google'
         }
       })
-    } return res.status(200).json({
+      statis = 201
+    } return res.status(statis).json({
       id: user.id,
       email: user.email,
       nome: user.nome,
