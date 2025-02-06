@@ -9,8 +9,8 @@ datasource db {
 
 model Note {
   id     String  @id @default(auto()) @map("_id") @db.ObjectId
-  tittle String
-  body   Json?  // alterado de String? para Json? por causa do blocknote
+  title  String?
+  content   Json?
   date   String
   hour   String
   idUser String  @db.ObjectId

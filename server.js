@@ -147,35 +147,79 @@ app.delete('/usuario/:id', async (req, res) => {
 
 // ROTAS DOS NOTES
 
-// cria uma nota com o id do user
-app.post('/note', async (req, res) => {
+// Rota para criar uma nova nota
+app.post('/usuario/:id/notes', async (req, res) => {
   try {
-    const { tittle, body = [], date, hour, idUser } = req.body;
+    const { content, date, hour } = req.body;
+    const { id } = req.params;
 
-    const usuario = await prisma.usuario.findUnique({
-      where: { id: idUser },
-    });
-
-    if (!usuario) {
-      return res.status(404).json({ error: 'Usuário não encontrado.' });
-    }
+    // Pega o primeiro bloco do tipo "heading" como título
+    const titleBlock = content.find(block => block.type === "heading");
+    const title = titleBlock ? titleBlock.content : "Nova Nota";
 
     const novaNota = await prisma.note.create({
       data: {
-        tittle,
-        body,  // agora body será JSON não uma string (blocknote)
+        title,
+        content,
         date,
         hour,
-        idUser,
-      },
+        idUser: id,
+      }
     });
 
     res.status(201).json(novaNota);
   } catch (error) {
-    console.error('Erro ao criar nota:', error);
-    res.status(500).json({ error: 'Erro interno ao criar nota.' });
+    console.error("Erro ao criar nota:", error);
+    res.status(500).json({ error: "Erro interno ao criar nota." });
   }
 });
+
+// put do note
+// Rota para atualizar uma nota existente
+app.put('/note/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content, date, hour } = req.body;
+
+    // Atualiza a nota com o ID fornecido
+    const notaAtualizada = await prisma.note.update({
+      where: { id: id },
+      data: {
+        content: content, // Ex: [{ type: "paragraph", content: "Texto" }]
+        date: date,
+        hour: hour
+      }
+    });
+
+    res.status(200).json(notaAtualizada);
+  } catch (error) {
+    console.error('Erro ao atualizar a nota:', error);
+    res.status(500).json({ error: 'Erro interno ao atualizar a nota.' });
+  }
+});
+
+
+//busca nota pelo id
+app.get('/note/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Verifica se a nota existe
+    const nota = await prisma.note.findUnique({
+      where: { id },
+    });
+
+    if (!nota) {
+      return res.status(404).json({ error: 'Nota não encontrada.' });
+    }
+
+    res.status(200).json(nota);
+  } catch (error) {
+    console.error('Erro ao buscar nota:', error);
+    res.status(500).json({ error: 'Erro interno ao buscar nota.' });
+  }
+});
+
 
 
 // busca todas as notas pelo id do user 
@@ -229,28 +273,6 @@ app.delete('/note/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro interno ao excluir nota.' });
   }
 });
-
-//busca nota pelo id
-app.get('/note/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Verifica se a nota existe
-    const nota = await prisma.note.findUnique({
-      where: { id },
-    });
-
-    if (!nota) {
-      return res.status(404).json({ error: 'Nota não encontrada.' });
-    }
-
-    res.status(200).json(nota);
-  } catch (error) {
-    console.error('Erro ao buscar nota:', error);
-    res.status(500).json({ error: 'Erro interno ao buscar nota.' });
-  }
-});
-
 
 // Inicia o servidor
 app.listen(port, () => {
