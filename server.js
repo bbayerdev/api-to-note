@@ -174,20 +174,16 @@ app.post('/usuario/:id/notes', async (req, res) => {
   }
 });
 
-// PUT do note
+// put do note
 app.put('/note/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { content, date, hour } = req.body;
 
-    // Se o conteúdo não estiver vazio, define o título como o conteúdo do primeiro bloco
-    const title = content && content.length > 0 ? content[0].content : 'Title';
-
     // Atualiza a nota com o ID fornecido
     const notaAtualizada = await prisma.note.update({
       where: { id: id },
       data: {
-        title: title, // Atualiza o título com o conteúdo do primeiro bloco
         content: content, // Ex: [{ type: "paragraph", content: "Texto" }]
         date: date,
         hour: hour
