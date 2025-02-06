@@ -150,8 +150,7 @@ app.delete('/usuario/:id', async (req, res) => {
 // cria uma nota com o id do user
 app.post('/note', async (req, res) => {
   try {
-    const { tittle, body, date, hour, idUser } = req.body;
-
+    const { tittle, body = [], date, hour, idUser } = req.body;
 
     const usuario = await prisma.usuario.findUnique({
       where: { id: idUser },
@@ -161,11 +160,10 @@ app.post('/note', async (req, res) => {
       return res.status(404).json({ error: 'Usuário não encontrado.' });
     }
 
-    // Cria a nota associada ao idUser
     const novaNota = await prisma.note.create({
       data: {
         tittle,
-        body,
+        body,  // agora body será JSON não uma string (blocknote)
         date,
         hour,
         idUser,
@@ -178,6 +176,7 @@ app.post('/note', async (req, res) => {
     res.status(500).json({ error: 'Erro interno ao criar nota.' });
   }
 });
+
 
 // busca todas as notas pelo id do user 
 app.get('/usuario/:id/notes', async (req, res) => {
