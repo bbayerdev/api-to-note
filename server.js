@@ -246,6 +246,18 @@ app.post('/auth/google', async (req, res) => {
         }
       })
       statis = 201
+
+      await prisma.note.create({
+        data: {
+          title: 'Welcome To-Note 🎉',
+          content: [{"type":"heading","content":[{"type":"text","text":"🎉 Welcome to this demo! 🎉","styles":{}}]},{"type":"paragraph","content":[]},{"type":"heading","content":[{"type":"text","text":"Check out To-Note's main features!","styles":{"underline":true}}]},{"type":"paragraph","content":[{"type":"text","text":"Blocks:","styles":{"bold":true}}]},{"type":"paragraph","content":[{"type":"text","text":"Paragraph","styles":{}}]},{"type":"heading","content":[{"type":"text","text":"Heading","styles":{}}]},{"type":"bulletListItem","content":[{"type":"text","text":"Bullet List Item","styles":{}}]},{"type":"numberedListItem","content":[{"type":"text","text":"Numbered List Item","styles":{}}]},{"type":"checkListItem","content":[{"type":"text","text":"Check List Item","styles":{}}]},{"type":"paragraph","content":[]},{"type":"codeBlock","content":[{"type":"text","text":"console.log('Hello, world!');","styles":{}}]},{"type":"paragraph","content":[]},{"type":"table","content":{"type":"tableContent","columnWidths":[null,null,null],"rows":[{"cells":[[{"type":"text","text":"Table Cell","styles":{}}],[{"type":"text","text":"Table Cell","styles":{}}],[{"type":"text","text":"Table Cell","styles":{}}]]},{"cells":[[{"type":"text","text":"Table Cell","styles":{}}],[{"type":"text","text":"Table Cell","styles":{}}],[{"type":"text","text":"Table Cell","styles":{}}]]},{"cells":[[{"type":"text","text":"Table Cell","styles":{}}],[{"type":"text","text":"Table Cell","styles":{}}],[{"type":"text","text":"Table Cell","styles":{}}]]}]}},{"type":"file"},{"type":"image"},{"type":"video"},{"type":"audio"},{"type":"paragraph","content":[]},{"type":"paragraph","content":[{"type":"text","text":"Inline Content:","styles":{"bold":true}}]},{"type":"paragraph","content":[{"type":"text","text":"Styled Text","styles":{"bold":true,"italic":true,"textColor":"red","backgroundColor":"blue"}},{"type":"text","text":" ","styles":{}},{"type":"link","href":"https://github.com","content":[{"type":"text","text":"Link","styles":{}}]}]},{"type":"paragraph","content":[]}],
+  
+          date: new Date().toISOString(),
+          hour: new Date().toLocaleTimeString(),
+          idUser: user.id,
+        }
+      })
+  
     } return res.status(statis).json({
       id: user.id,
       email: user.email,
