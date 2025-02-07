@@ -150,12 +150,8 @@ app.delete('/usuario/:id', async (req, res) => {
 // Rota para criar uma nova nota
 app.post('/usuario/:id/notes', async (req, res) => {
   try {
-    const { content, date, hour } = req.body;
+    const { content, date, hour, title } = req.body;
     const { id } = req.params;
-
-    // Pega o primeiro bloco do tipo "heading" como título
-    const titleBlock = content.find(block => block.type === "heading");
-    const title = titleBlock ? titleBlock.content : "Nova Nota";
 
     const novaNota = await prisma.note.create({
       data: {
@@ -193,6 +189,27 @@ app.put('/note/:id', async (req, res) => {
     res.status(200).json(notaAtualizada);
   } catch (error) {
     console.error('Erro ao atualizar a nota:', error);
+    res.status(500).json({ error: 'Erro interno ao atualizar a nota.' });
+  }
+});
+
+// put do note title
+app.put('/note/title/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+
+    // Atualiza a nota com o ID fornecido
+    const notaAtualizada = await prisma.note.update({
+      where: { id: id },
+      data: {
+        title
+      }
+    })
+
+    res.status(200).json(notaAtualizada);
+  } catch (error) {
+    console.error('Erro ao atualizar o titulo:', error);
     res.status(500).json({ error: 'Erro interno ao atualizar a nota.' });
   }
 });
