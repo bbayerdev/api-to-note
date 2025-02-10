@@ -47,7 +47,168 @@ app.post('/usuario', async (req, res) => {
     await prisma.note.create({
       data: {
         title: 'Welcome To-Note 🎉',
-        content: [{ "type": "heading", "content": [{ "type": "text", "text": "🎉 Welcome to this demo! 🎉", "styles": {} }] }, { "type": "paragraph", "content": [] }, { "type": "heading", "props":{"textColor":"default","backgroundColor":"default","textAlignment":"left","level":2}, "content": [{ "type": "text", "text": "Check out To-Note's main features!", "styles": { "underline": true } }] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Blocks:", "styles": { "bold": true } }] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Paragraph", "styles": {} }] }, { "type": "heading", "content": [{ "type": "text", "text": "Heading 1, 2, 3 ", "styles": {} }] }, { "type": "bulletListItem", "content": [{ "type": "text", "text": "Bullet List Item", "styles": {} }] }, { "type": "numberedListItem", "content": [{ "type": "text", "text": "Numbered List Item", "styles": {} }] }, { "type": "checkListItem", "content": [{ "type": "text", "text": "Check List Item", "styles": {} }] }, { "type": "paragraph", "content": [] }, { "type": "codeBlock", "content": [{ "type": "text", "text": "console.log('Hello, world!');", "styles": {} }] }, { "type": "paragraph", "content": [] }, { "type": "table", "content": { "type": "tableContent", "columnWidths": [null, null, null], "rows": [{ "cells": [[{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }]] }, { "cells": [[{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }]] }, { "cells": [[{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }]] }] } }, { "type": "file" }, { "type": "image" }, { "type": "video" }, { "type": "audio" }, { "type": "paragraph", "content": [] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Inline Content:", "styles": { "bold": true } }] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Styled Text", "styles": { "bold": true, "italic": true, "textColor": "red", "backgroundColor": "blue" } }, { "type": "text", "text": " ", "styles": {} }, { "type": "link", "href": "https://github.com", "content": [{ "type": "text", "text": "Link", "styles": {} }] }] }, { "type": "paragraph", "content": [] }],
+        content: [
+          {
+            "type": "heading",
+            "content": [
+              {
+                "type": "text",
+                "text": "Welcome to this demo!",
+                "styles": {}
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "props": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "Check out the features of To-Note!",
+                "styles": { "underline": true }
+              }
+            ]
+          },
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: "Blocks:",
+                styles: { bold: true },
+              },
+            ],
+          },
+          {
+            type: "paragraph",
+            content: "Paragraph",
+          },
+          {
+            type: "heading",
+            content: "Heading 1",
+          },
+          {
+            "type": "heading",
+            "props": {
+              "level": 2
+            },
+            "content": "Heading 2"
+          },
+          {
+            "type": "heading",
+            "props": {
+              "level": 3
+            },
+            "content": "Heading 3"
+          },
+          {
+            type: "paragraph",
+          },
+          {
+            type: "bulletListItem",
+            content: "Bullet List Item",
+          },
+          {
+            type: "numberedListItem",
+            content: "Numbered List Item",
+          },
+          {
+            type: "checkListItem",
+            content: "Check List Item",
+          },
+          {
+            type: "codeBlock",
+            props: { language: "javascript" },
+            content: "console.log('Hello, world!');",
+          },
+          {
+            type: "table",
+            content: {
+              type: "tableContent",
+              rows: [
+                {
+                  cells: ["Table Cell", "Table Cell", "Table Cell"],
+                },
+                {
+                  cells: ["Table Cell", "Table Cell", "Table Cell"],
+                },
+                {
+                  cells: ["Table Cell", "Table Cell", "Table Cell"],
+                },
+              ],
+            },
+          },
+          {
+            type: "file",
+          },
+          {
+            type: "image",
+            props: {
+              url: "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
+              caption:
+                "From https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
+            },
+          },
+          {
+            type: "video",
+            props: {
+              url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
+              caption:
+                "From https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
+            },
+          },
+          {
+            type: "audio",
+            props: {
+              url: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+              caption:
+                "From https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+            },
+          },
+          {
+            type: "paragraph",
+          },
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: "Inline Content:",
+                styles: { bold: true },
+              },
+            ],
+          },
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: "Styled Text",
+                styles: {
+                  bold: true,
+                  italic: true,
+                  textColor: "red",
+                  backgroundColor: "blue",
+                },
+              },
+              {
+                type: "text",
+                text: " ",
+                styles: {},
+              },
+              {
+                type: "link",
+                content: "Link",
+                href: "https://github.com",
+              },
+            ],
+          },
+          {
+            type: "paragraph",
+          },
+        ],
         date: new Date().toISOString(),
         hour: new Date().toLocaleTimeString(),
         idUser: novoUsuario.id,
@@ -116,8 +277,168 @@ app.post('/auth/google', async (req, res) => {
       await prisma.note.create({
         data: {
           title: 'Welcome To-Note 🎉',
-          content: [{ "type": "heading", "content": [{ "type": "text", "text": "🎉 Welcome to this demo! 🎉", "styles": {} }] }, { "type": "paragraph", "content": [] }, { "type": "heading", "content": [{ "type": "text", "text": "Check out To-Note's main features!", "styles": { "underline": true } }] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Blocks:", "styles": { "bold": true } }] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Paragraph", "styles": {} }] }, { "type": "heading", "content": [{ "type": "text", "text": "Heading", "styles": {} }] }, { "type": "bulletListItem", "content": [{ "type": "text", "text": "Bullet List Item", "styles": {} }] }, { "type": "numberedListItem", "content": [{ "type": "text", "text": "Numbered List Item", "styles": {} }] }, { "type": "checkListItem", "content": [{ "type": "text", "text": "Check List Item", "styles": {} }] }, { "type": "paragraph", "content": [] }, { "type": "codeBlock", "content": [{ "type": "text", "text": "console.log('Hello, world!');", "styles": {} }] }, { "type": "paragraph", "content": [] }, { "type": "table", "content": { "type": "tableContent", "columnWidths": [null, null, null], "rows": [{ "cells": [[{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }]] }, { "cells": [[{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }]] }, { "cells": [[{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }], [{ "type": "text", "text": "Table Cell", "styles": {} }]] }] } }, { "type": "file" }, { "type": "image" }, { "type": "video" }, { "type": "audio" }, { "type": "paragraph", "content": [] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Inline Content:", "styles": { "bold": true } }] }, { "type": "paragraph", "content": [{ "type": "text", "text": "Styled Text", "styles": { "bold": true, "italic": true, "textColor": "red", "backgroundColor": "blue" } }, { "type": "text", "text": " ", "styles": {} }, { "type": "link", "href": "https://github.com", "content": [{ "type": "text", "text": "Link", "styles": {} }] }] }, { "type": "paragraph", "content": [] }],
-
+          content: [
+            {
+              "type": "heading",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Welcome to this demo!",
+                  "styles": {}
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "props": {
+                "level": 2
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Check out the features of To-Note!",
+                  "styles": { "underline": true }
+                }
+              ]
+            },
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
+                  text: "Blocks:",
+                  styles: { bold: true },
+                },
+              ],
+            },
+            {
+              type: "paragraph",
+              content: "Paragraph",
+            },
+            {
+              type: "heading",
+              content: "Heading 1",
+            },
+            {
+              "type": "heading",
+              "props": {
+                "level": 2
+              },
+              "content": "Heading 2"
+            },
+            {
+              "type": "heading",
+              "props": {
+                "level": 3
+              },
+              "content": "Heading 3"
+            },
+            {
+              type: "paragraph",
+            },
+            {
+              type: "bulletListItem",
+              content: "Bullet List Item",
+            },
+            {
+              type: "numberedListItem",
+              content: "Numbered List Item",
+            },
+            {
+              type: "checkListItem",
+              content: "Check List Item",
+            },
+            {
+              type: "codeBlock",
+              props: { language: "javascript" },
+              content: "console.log('Hello, world!');",
+            },
+            {
+              type: "table",
+              content: {
+                type: "tableContent",
+                rows: [
+                  {
+                    cells: ["Table Cell", "Table Cell", "Table Cell"],
+                  },
+                  {
+                    cells: ["Table Cell", "Table Cell", "Table Cell"],
+                  },
+                  {
+                    cells: ["Table Cell", "Table Cell", "Table Cell"],
+                  },
+                ],
+              },
+            },
+            {
+              type: "file",
+            },
+            {
+              type: "image",
+              props: {
+                url: "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
+                caption:
+                  "From https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
+              },
+            },
+            {
+              type: "video",
+              props: {
+                url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
+                caption:
+                  "From https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
+              },
+            },
+            {
+              type: "audio",
+              props: {
+                url: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+                caption:
+                  "From https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+              },
+            },
+            {
+              type: "paragraph",
+            },
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
+                  text: "Inline Content:",
+                  styles: { bold: true },
+                },
+              ],
+            },
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
+                  text: "Styled Text",
+                  styles: {
+                    bold: true,
+                    italic: true,
+                    textColor: "red",
+                    backgroundColor: "blue",
+                  },
+                },
+                {
+                  type: "text",
+                  text: " ",
+                  styles: {},
+                },
+                {
+                  type: "link",
+                  content: "Link",
+                  href: "https://github.com",
+                },
+              ],
+            },
+            {
+              type: "paragraph",
+            },
+          ],
           date: new Date().toISOString(),
           hour: new Date().toLocaleTimeString(),
           idUser: user.id,
