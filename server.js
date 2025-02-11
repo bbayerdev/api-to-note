@@ -119,9 +119,15 @@ app.post('/usuario', async (req, res) => {
             content: "Check List Item",
           },
           {
+            type: "paragraph",
+          },
+          {
             type: "codeBlock",
             props: { language: "javascript" },
             content: "console.log('Hello, world!');",
+          },
+          {
+            type: "paragraph",
           },
           {
             type: "table",
@@ -349,9 +355,15 @@ app.post('/auth/google', async (req, res) => {
               content: "Check List Item",
             },
             {
+              type: "paragraph",
+            },
+            {
               type: "codeBlock",
               props: { language: "javascript" },
               content: "console.log('Hello, world!');",
+            },
+            {
+              type: "paragraph",
             },
             {
               type: "table",
