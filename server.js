@@ -9,7 +9,7 @@ const prisma = new PrismaClient()
 
 // cors / so apenas requisições de 'http://localhost:3000'
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? 'https://<seu-projeto>.vercel.app' : 'http://localhost:3000',
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: 'Content-Type',
 }));
