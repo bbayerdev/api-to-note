@@ -1,15 +1,17 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "maxDuration": 10
+      }
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server.js"
-    }
-  ]
+  "env": {
+    "DATABASE_URL": "mongodb+srv://bayer:JK87obZGZ6NK9Szz@cluster0.jg2ro.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  },
+  "hooks": {
+    "build": "prisma generate && prisma db push"
+  }
 }

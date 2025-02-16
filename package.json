@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "prisma generate && npm run build:yourbuildsteps", 
-    "start": "node server.js", 
+    "build": "prisma generate && prisma db push && npm run build:yourbuildsteps",
     "dev": "node --watch --no-warnings server.js",
+    "start": "node server.js", 
     "prisma:push": "npx prisma db push",
     "prisma:generate": "npx prisma generate"
   },
