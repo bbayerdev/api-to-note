@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "node --watch --no-warnings server.js"
+    "build": "npm run prisma:push && npm run prisma:generate", 
+    "start": "node server.js", 
+    "dev": "node --watch --no-warnings server.js",
+    "prisma:push": "npx prisma db push",
+    "prisma:generate": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
