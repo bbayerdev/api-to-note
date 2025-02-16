@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const port = 3001
+const port = process.env.PORT || 3000
 const prisma = new PrismaClient()
 
 //DATABASE_URL="mongodb+srv://bayer:JK87obZGZ6NK9Szz@cluster0.jg2ro.mongodb.net/cluster0?retryWrites=true&w=majority"
