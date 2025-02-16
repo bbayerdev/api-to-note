@@ -518,8 +518,6 @@ app.post('/usuario/:id/notes', async (req, res) => {
       }
     })
 
-
-
     res.status(201).json(novaNota);
   } catch (error) {
     console.error("Erro ao criar nota:", error);
@@ -595,7 +593,7 @@ app.get('/note/:id', async (req, res) => {
 
 
 
-// busca todas as notas pelo id do user 
+// buscxa todas as notas do usuário em ordem de atualização
 app.get('/usuario/:id/notes', async (req, res) => {
   try {
     const { id } = req.params;
@@ -609,9 +607,13 @@ app.get('/usuario/:id/notes', async (req, res) => {
       return res.status(404).json({ error: 'Usuário não encontrado.' });
     }
 
-    // Busca todas as notas do usuário
+    //ordem de atualização
     const notas = await prisma.note.findMany({
       where: { idUser: id },
+      orderBy: [
+        { date: 'desc' },
+        { hour: 'desc' }
+      ],
     });
 
     res.status(200).json(notas);
@@ -619,7 +621,8 @@ app.get('/usuario/:id/notes', async (req, res) => {
     console.error('Erro ao buscar notas do usuário:', error);
     res.status(500).json({ error: 'Erro interno ao buscar notas.' });
   }
-})
+});
+
 
 //deletar uma nota
 app.delete('/note/:id', async (req, res) => {
