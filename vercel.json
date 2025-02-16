@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "hooks": {
+    "build": [
+      "npx prisma db push",
+      "npx prisma generate"
+    ]
+  }
+}
