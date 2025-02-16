@@ -10,7 +10,7 @@ const port = process.env.PORT || 3001
 
 // Configuração do CORS
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://<seu-projeto>.vercel.app' : 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? 'https://api-to-note.vercel.app/' : 'http://localhost:3000',
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: 'Content-Type',
 }));
