@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npm run prisma:push && npm run prisma:generate", 
+    "build": "prisma generate && npm run build:yourbuildsteps", 
     "start": "node server.js", 
     "dev": "node --watch --no-warnings server.js",
     "prisma:push": "npx prisma db push",
