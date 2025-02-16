@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "prisma generate && prisma db push && npm run build:yourbuildsteps",
+   "build": "prisma generate && <actual-build-command>",
     "dev": "node --watch --no-warnings server.js",
     "start": "node server.js", 
     "prisma:push": "npx prisma db push",
     "prisma:generate": "npx prisma generate",
-    "postinstall": "prisma generate"
+       "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",

@@ -1,29 +1,44 @@
 const { PrismaClient } = require('@prisma/client')
 const express = require('express')
 const cors = require('cors')
+
 const app = express()
-const port = process.env.PORT || 3001
 const prisma = new PrismaClient()
 
-//DATABASE_URL="mongodb+srv://bayer:JK87obZGZ6NK9Szz@cluster0.jg2ro.mongodb.net/cluster0?retryWrites=true&w=majority"
+// Definir o porto
+const port = process.env.PORT || 3001
 
-// cors / so apenas requisições de 'http://localhost:3000'
+// Configuração do CORS
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? 'https://<seu-projeto>.vercel.app' : 'http://localhost:3000',
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: 'Content-Type',
 }));
 
+// Middleware para permitir que o Express manipule JSON
 app.use(express.json());
 
-// root
+// Rota raiz
 app.get('/', (req, res) => {
-  res.send('route root');
-})
+  res.send('Rota raiz');
+});
 
+// Rota de teste
 app.get('/test', (req, res) => {
-  res.send('Test route');
-})
+  res.send('Rota de Teste');
+});
+
+// Rota para pegar as notas
+app.get('/api/note', async (req, res) => {
+  try {
+    const notes = await prisma.note.findMany();
+    res.status(200).json(notes);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+
 
 // ROTAS USUARIO
 
@@ -654,7 +669,7 @@ app.delete('/note/:id', async (req, res) => {
   }
 });
 
-// Inicia o servidor
+// Inicializando o servidor
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(`Servidor rodando na porta ${port}`);
 });
