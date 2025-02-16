@@ -19,7 +19,11 @@ app.use(express.json());
 // root
 app.get('/', (req, res) => {
   res.send('route root');
-});
+})
+
+app.get('/test', (req, res) => {
+  res.send('Test route');
+})
 
 // ROTAS USUARIO
 
