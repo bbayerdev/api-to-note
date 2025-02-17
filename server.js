@@ -18,7 +18,7 @@ app.use(express.json());
 
 // root
 app.get('/', (req, res) => {
-  res.send('route root');
+  res.send('api to note 1.0');
 });
 
 // ROTAS USUARIO
